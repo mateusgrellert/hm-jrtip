@@ -2414,7 +2414,7 @@ Void TEncGOP::xCalculateAddPSNR( TComPic* pcPic, TComPicYuv* pcPicD, const Acces
   }
   printf(" [ET %5.2f ]", dEncTime );
 #if EN_ANALYTICS
-  TComAnalytics::printRDStats(uibits, dPSNR[COMPONENT_Y], dPSNR[COMPONENT_Cb], dPSNR[COMPONENT_Cr], dEncTime);
+ // TComAnalytics::printRDStats(uibits, dPSNR[COMPONENT_Y], dPSNR[COMPONENT_Cb], dPSNR[COMPONENT_Cr], dEncTime);
 #endif
   for (Int iRefList = 0; iRefList < 2; iRefList++)
   {

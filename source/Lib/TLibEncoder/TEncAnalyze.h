@@ -282,11 +282,11 @@ public:
     }
     
     #if EN_ANALYTICS
-    if (cDelim == 'a')
-        TComAnalytics::printRDStats(getBits() * dScale, 
-                getPsnr(COMPONENT_Y) / (Double)getNumPic(),
-                getPsnr(COMPONENT_Cb) / (Double)getNumPic(), 
-                getPsnr(COMPONENT_Cb) / (Double)getNumPic(), -1.0);
+   // if (cDelim == 'a')
+      //  TComAnalytics::printRDStats(getBits() * dScale, 
+      //          getPsnr(COMPONENT_Y) / (Double)getNumPic(),
+      //          getPsnr(COMPONENT_Cb) / (Double)getNumPic(), 
+      //          getPsnr(COMPONENT_Cb) / (Double)getNumPic(), -1.0);
 #endif
   }
 

@@ -70,8 +70,8 @@ Double TComComplexityController::calcPID(UInt n, UInt t_layer){
     
         
     error = ((SP - PV));
-    //if(nEncoded % 4 == 0)
-   //     accumError = 0.0;
+    if(nEncoded % 4 == 0)
+        accumError = 0.0;
     accumError += error;           
 
     PIDOutput = kp*error + ki*accumError+ kd*(error - prevError);

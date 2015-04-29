@@ -53,7 +53,7 @@ Void TComAnalytics::init() {
     currDepth = 0;
     currPartIdx = 0;
     currMode = 0;
-    hsvFile.open("frame_stats.hsv",std::ofstream::out);
+   // hsvFile.open("frame_stats.hsv",std::ofstream::out);
     encodingStarted = false; // true if best mv only
     
     totalPUCount = 0.0;
@@ -352,9 +352,9 @@ Int TComAnalytics::getYOffSetInPU(Int d, Int PUIdx, PartSize partSize){
 }
 
 Void TComAnalytics::setPOC(UInt poc){
-    TComAnalytics::openTimingFile();
-    cuTimingFile << "POC\t" << poc << endl;
-    if (poc > 0)
-        hsvFile << "EOP" << endl;
-    hsvFile << "POC;" << poc << endl;
+    //TComAnalytics::openTimingFile();
+  //  cuTimingFile << "POC\t" << poc << endl;
+   // if (poc > 0)
+      //  hsvFile << "EOP" << endl;
+    //hsvFile << "POC;" << poc << endl;
 }

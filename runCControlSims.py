@@ -1,39 +1,41 @@
 import os
 from os import system
 
-sequence_list = ['BQMall', 'BQSquare', 'BQTerrace', 'BasketballDrillText', 'BasketballDrill', 'BasketballDrive', 
-				'BasketballPass', 'BlowingBubbles', 'Cactus', 'Kimono', 'ChinaSpeed', 
-				'NebutaFestival', 'ParkScene', 'PartyScene', 'PeopleOnStreet', 'RaceHorsesC', 'RaceHorses', 
-				'SlideEditing', 'SlideShow', 'SteamLocomotiveTrain', 'Traffic']
+def buildSequenceList():
+	fin = open("sequences.inp","r")
+	seq_frames = []
+	for l in fin.readlines():
+		if len(l) > 2:
+			seq_frames.append(l.split())
+	return seq_frames
 
-sequence_list = ['PeopleOnStreet','Kimono']
-nFrames = ['64','64','64','64','64']
-nFrames = '64'
+sequence_list = buildSequenceList()
 QP_list = ['22','27','32','37']
 
 KP = '0.4'
 KI = '0.84'
 KD = '0.4'
+path_to_yuv = '~/origCfP/cropped/'
 
-RDO = False
+RDO = True
 
 budget_list = ['3'] # 0 - Uniform Estimation 1 - Uniform Incremental 2 - BottomUp 3 - ICIP 4 - Set All to PS60
 configs = ['encoder_lowdelay_P_main']
 
 for config in configs:
 	i = 0
-	for sequence in sequence_list:
+	for [sequence, nFrames] in sequence_list:
 		for budget in budget_list:
 
-			strSeq = './TAppEncoderStatic -c ../cfg/'+config+'.cfg -c ~/hm-cfgs/cropped/'+sequence
+			strSeq = './TAppEncoderStatic -c ../cfg/'+config+'.cfg -c ~/hm-cfgs/cropped/'+sequence + '.cfg'
 
 			if sequence == 'BasketballDrill':
-				seq_path = os.popen('ls /Volumes/Time\\ Capsule/origCfP/'+sequence+'_*').readlines()
+				seq_path = os.popen('ls ' + path_to_yuv +sequence+'_*').readlines()
 
 			if sequence == 'RaceHorsesC':
-				seq_path = os.popen('ls /Volumes/Time\\ Capsule/origCfP/'+sequence+'*8*').readlines()
+				seq_path = os.popen('ls ' + path_to_yuv +sequence +'*8*').readlines()
 			else:
-				seq_path = os.popen('ls /Volumes/Time\\ Capsule/origCfP/'+sequence+'*').readlines()
+				seq_path = os.popen('ls ' + path_to_yuv +sequence + '*').readlines()
 			
 			seq_path = seq_path[0].strip('\n')
 
@@ -53,15 +55,18 @@ for config in configs:
 				print execLine
 				system(execLine)
 
-				system("mkdir QP_"+QP)
-				system("mv *csv ./QP_"+QP)
-				system("mv *txt ./QP_"+QP)
+				system("mkdir -p QP_"+QP)
+				system("cp -r *csv ./QP_"+QP)
+				system("cp -r *txt ./QP_"+QP)
+				system("rm *csv *txt")
 
 				j += 1
 
 			if RDO:
-				system("mkdir "+ sequence + '_' + config + '_RDO')
-				system("mv "+ 'QP_* ./' + sequence + '_' + config + '_RDO')
+				system("mkdir -p "+ sequence + '_' + config + '_RDO')
+				system("cp -r "+ 'QP_* ./' + sequence + '_' + config + '_RDO')
 			else:
-				system("mkdir "+ sequence + '_' + config)
-				system("mv "+ 'QP_* ./' + sequence + '_' + config)
+				config = config + '_budget=' + budget + '_KPKIKD=' + ('_').join(KP,KI,KD)
+				system("mkdir -p "+ sequence + '_' + config)
+				system("cp -r "+ 'QP_* ./' + sequence + '_' + config)
+			system("rm -rf QP_*")
