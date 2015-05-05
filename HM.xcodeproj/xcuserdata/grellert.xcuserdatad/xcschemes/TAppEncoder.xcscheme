@@ -61,7 +61,7 @@
       </BuildableProductRunnable>
       <CommandLineArguments>
          <CommandLineArgument
-            argument = "-c ../cfg/encoder_lowdelay_P_main.cfg -c ../../hm-cfgs/cropped/RaceHorsesC.cfg -f 64 --KP=0.4 --KI=0.84 --KD=0.4 -balg 3"
+            argument = "-c ../cfg/encoder_lowdelay_P_main.cfg -c /Users/grellert/hm-cfgs/cropped/RaceHorsesC.cfg -f 64 --KP=0.4 --KI=0.84 --KD=0.4 --SP=5.52 -balg 0"
             isEnabled = "YES">
          </CommandLineArgument>
       </CommandLineArguments>

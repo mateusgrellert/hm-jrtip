@@ -639,7 +639,7 @@ Bool TAppEncCfg::parseCfg( Int argc, Char* argv[] )
   Int saoOffsetBitShift[MAX_NUM_CHANNEL_TYPE];
 
 #if EN_COMPLEXITY_MANAGING
-  double dkp,dki,dkd, t_savings;
+  double dkp,dki,dkd, t_savings, sp;
 #endif
   
   // Multi-value input fields:                                // minval, maxval (incl), min_entries, max_entries (incl) [, default values, number of default values]
@@ -776,7 +776,8 @@ Bool TAppEncCfg::parseCfg( Int argc, Char* argv[] )
   ("KP",         dkp,               (double)  1.0, "KP constant of PID")
   ("KI",         dki,               (double)  1.0, "KI constant of PID")
   ("KD",         dkd,               (double)  1.0, "KD constant of PID")
-  ("TargetSavings",         t_savings,                (double)  0.6, "Target Savings")
+    ("TargetSavings",         t_savings,                (double)  0.6, "Target Savings")
+    ("SP",         sp ,                (double)  0.6, "Set Point")
 #endif
   // Mode decision parameters
   ("LambdaModifier0,-LM0",                            m_adLambdaModifier[ 0 ],                  ( Double )1.0, "Lambda modifier for temporal layer 0")
@@ -1064,7 +1065,8 @@ Bool TAppEncCfg::parseCfg( Int argc, Char* argv[] )
   TComComplexityController::kp = dkp;
   TComComplexityController::ki = dki;
   TComComplexityController::kd = dkd;
-  TComComplexityController::targetSavings = t_savings;
+    TComComplexityController::targetSavings = t_savings;
+    TComComplexityController::SP = sp;
   
 #endif
   /*
@@ -2314,7 +2316,7 @@ Void TAppEncCfg::xPrintParameter()
   printf("PID KP                             : %.3f\n", TComComplexityController::kp);
   printf("PID K                              : %.3f\n", TComComplexityController::ki);
   printf("PID KD                             : %.3f\n", TComComplexityController::kd);
-  printf("Target Savings                     : %.3f\n\n", TComComplexityController::targetSavings);
+  printf("SP                                 : %.3f\n\n", TComComplexityController::SP);
 #endif
   printf("Cb QP Offset                      : %d\n", m_cbQpOffset   );
   printf("Cr QP Offset                      : %d\n", m_crQpOffset);

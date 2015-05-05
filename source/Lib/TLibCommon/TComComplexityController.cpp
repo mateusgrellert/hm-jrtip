@@ -3,9 +3,11 @@
 Double TComComplexityController::PV;
 Double TComComplexityController::PV_avg;
 Double TComComplexityController::SP;
+Double TComComplexityController::new_SP;
 Double TComComplexityController::error;
 Double TComComplexityController::prevError;
 Double TComComplexityController::accumError;
+Double TComComplexityController::controlOutput;
 Double TComComplexityController::kd;
 Double TComComplexityController::ki;
 Double TComComplexityController::kp;
@@ -24,7 +26,7 @@ clock_t TComComplexityController::lBefore;
 Double TComComplexityController::timer;
 
 Void TComComplexityController::init(UInt n_encFrames){
-    SP = 0.0; // gives number of cycles available per frame per frame
+   // SP = 0.0; // gives number of cycles available per frame per frame
    // kp = KP;
    // ki = KI;
   //  kd = KD;
@@ -36,57 +38,61 @@ Void TComComplexityController::init(UInt n_encFrames){
     accumError = 0.0;
     totalAchievedComp = 0.0;
     trainingCount = 0;
+    controlOutput = 0.0;
     PV_avg = 0.0;
+}
+
+void TComComplexityController::setPV(){
+    PV = calcAchievedComp();
 }
 
 Double TComComplexityController::calcPID(UInt n, UInt t_layer){
 
     Double PIDOutput;
-    openPidFile();
     PV = calcAchievedComp();
     nEncoded = (n-4-NUM_RD_FRAMES+1);
     prevError = error;
-
+    int nmod64 = nEncoded % 32;
     TComComplexityBudgeter::activateControl = true;
     
 //        nEncoded = (n-NUM_RD_FRAMES) % 60;
 
 //       
+    if(SP*(0.4-0.1*(int)(nEncoded/32)) != new_SP){
+        accumError = 0;
+        prevError = 0;
+        PV_avg = PV;
+    }
+    else
+        PV_avg = (PV_avg*(nmod64-1)+PV)/(nmod64);
 
-   //SP = totalAchievedComp*(0.8-0.2*(int)((n-NUM_RD_FRAMES)/60));
-   // if (SP <= totalAchievedComp*0.2)
-      //  SP = totalAchievedComp*0.3;
-            
-//    error = ((SP - PV));
-//
-//    if(nEncoded == 0){
-//        accumError = 0;
-//        prevError = 0;
-//        PV_avg = PV;
-//    }
-//    else
-        PV_avg = (PV_avg*(nEncoded-1)+PV)/(nEncoded);
+        new_SP = SP*(0.4-0.1*(int)(nEncoded/32));
+
 
     
-        
-    error = ((SP - PV));
-    if(nEncoded % 4 == 0)
-        accumError = 0.0;
+    //PV_avg = (PV_avg*(nEncoded-1)+PV)/(nEncoded);
+
+        error = new_SP - PV;
+    
+  //  if(nEncoded % 4 == 0)
+    //    accumError = 0.0;
     accumError += error;           
 
     PIDOutput = kp*error + ki*accumError+ kd*(error - prevError);
-    Double finalOutput = (PV + PIDOutput);
+    controlOutput = (PV + PIDOutput);
 
     //if (finalOutput < 0) finalOutput = 0.0;
 
 
-    return finalOutput;
+    return controlOutput;
  
     //return (desiredComp + PIDOutput);
 }
 
 void TComComplexityController::printPIDStats(){
-    pidFile << ";" << TComComplexityBudgeter::activateControl << ";" <<  SP << ";" << PV << ";" << PV_avg << ";" << (PV + (kp*error + ki*accumError+ kd*(error - prevError)));
+    openPidFile();
+
+    pidFile << ";" << TComComplexityBudgeter::activateControl << ";" <<  new_SP << ";" << PV << ";" << PV_avg << ";" << controlOutput;
 
 }
 
@@ -95,9 +101,9 @@ void TComComplexityController::calcPV( ){
     trainingCount++;
 }
 
-void TComComplexityController::setSP(){
-    SP = totalAchievedComp/trainingCount*targetSavings;
-    SP = 5.38;
+void TComComplexityController::setSP(double sp){
+    //SP = totalAchievedComp/trainingCount*targetSavings;
+    SP = sp;
 }
 
 Double TComComplexityController::calcWeight(UInt t_layer){

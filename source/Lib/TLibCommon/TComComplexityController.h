@@ -12,11 +12,11 @@ class TComComplexityController {
 
 public:
     
-    static Double PV, SP, PV_avg;
+    static Double PV, SP, new_SP, PV_avg;
     static Double kp, ki, kd;
     static Double nSteps,targetSavings;
     static Double error, prevError;
-    static Double accumError;
+    static Double accumError, controlOutput;
     
     static Double procAvail,totalAchievedComp;
     static UInt procFreq, trainingCount;
@@ -40,8 +40,9 @@ public:
     static Void printAchievedComputation();
     static Double calcPID(UInt,UInt);
     static Double calcWeight(UInt t_layer);
-    static void setSP();
+    static void setSP(double);
     static void calcPV();
+    static void setPV();
     static void printPIDStats();
     static void initTimer();
     static void endTimer();

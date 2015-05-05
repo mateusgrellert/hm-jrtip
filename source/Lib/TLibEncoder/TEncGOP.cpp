@@ -1151,6 +1151,8 @@ Void TEncGOP::compressGOP( Int iPOCLast, Int iNumPicRcvd, TComList<TComPic*>& rc
 
  
         //  }
+          TComComplexityController::setPV();
+
           // else if(TComComplexityBudgeter::isConstrained()){
              if(pcSlice->getPic()->getPOC() >  3 + NUM_RD_FRAMES){
 //              TComComplexityController::setSP();
@@ -1164,12 +1166,15 @@ Void TEncGOP::compressGOP( Int iPOCLast, Int iNumPicRcvd, TComList<TComPic*>& rc
               TComComplexityBudgeter::setFrameBudget(controlOut );
 
               TComComplexityBudgeter::distributeBudget();
+                 TComComplexityController::printPIDStats();
+                 TComComplexityBudgeter::printEstimatedComp();
           //}
-                        TComComplexityController::printPIDStats();
-                        TComComplexityBudgeter::printEstimatedComp();
+//                        TComComplexityController::printPIDStats();
+  //                      TComComplexityBudgeter::printEstimatedComp();
 
          // }          Double controlOut = TComComplexityController::calcSimpleControl(TComComplexityBudgeter::nEncoded);
           }
+
           //else TComComplexityController::printAchievedComputation();
       }
 #else
@@ -1194,7 +1199,7 @@ Void TEncGOP::compressGOP( Int iPOCLast, Int iNumPicRcvd, TComList<TComPic*>& rc
                   
         if(pcSlice->getPic()->getPOC() > 3 and  pcSlice->getPic()->getPOC() <= 3 + NUM_RD_FRAMES){
               TComComplexityController::calcPV();
-              TComComplexityController::setSP();
+             // TComComplexityController::setSP();
           }
 #endif
         const UInt curSliceSegmentEnd = pcSlice->getSliceSegmentCurEndCtuTsAddr();

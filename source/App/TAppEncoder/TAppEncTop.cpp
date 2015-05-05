@@ -484,7 +484,7 @@ Void TAppEncTop::encode()
     // write bistream to file if necessary
     if ( iNumEncoded > 0 )
     {
-      xWriteOutput(bitstreamFile, iNumEncoded, outputAccessUnits);
+      //xWriteOutput(bitstreamFile, iNumEncoded, outputAccessUnits);
       outputAccessUnits.clear();
     }
   }

@@ -182,7 +182,7 @@ Void TComComplexityBudgeter::setMaxPS(){
 Void TComComplexityBudgeter::uniformEstimationBudget(){ 
     Double estCycleCount = 0.0;
     currPSet = 0;
-    while( currPSet > NUM_PSETS - 1){
+    while( currPSet < NUM_PSETS -1 ){
         if (estimateCycleCount(3,currPSet) <= frameBudget){
             break;
         }

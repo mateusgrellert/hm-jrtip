@@ -9,25 +9,37 @@ def buildSequenceList():
 			seq_frames.append(l.split())
 	return seq_frames
 
+def buildTimeTable():
+	fin = open("rdo_times.inp","r")
+	time_table = {}
+	for l in fin.readlines():
+		if len(l) > 2:
+			time_table[l.split()[0]] = float(l.split()[1])
+	return time_table
+
 sequence_list = buildSequenceList()
+time_table = buildTimeTable()
+
 QP_list = ['22','27','32','37']
 
 KP = '0.4'
 KI = '0.84'
 KD = '0.4'
-path_to_yuv = '~/origCfP/cropped/'
+path_to_yuv = '/Users/grellert/origCfP/cropped/'
 
 RDO = True
 
 budget_list = ['3'] # 0 - Uniform Estimation 1 - Uniform Incremental 2 - BottomUp 3 - ICIP 4 - Set All to PS60
 configs = ['encoder_lowdelay_P_main']
+time_factor = 0.6
 
 for config in configs:
 	i = 0
 	for [sequence, nFrames] in sequence_list:
+		SP = str(time_table[sequence]*time_factor/int(nFrames))
 		for budget in budget_list:
 
-			strSeq = './TAppEncoderStatic -c ../cfg/'+config+'.cfg -c ~/hm-cfgs/cropped/'+sequence + '.cfg'
+			strSeq = './TAppEncoderStatic -c ../cfg/'+config+'.cfg -c  /Users/grellert/hm-cfgs/cropped/'+sequence + '.cfg'
 
 			if sequence == 'BasketballDrill':
 				seq_path = os.popen('ls ' + path_to_yuv +sequence+'_*').readlines()
@@ -49,6 +61,7 @@ for config in configs:
 				strQP += ' --KP=' + KP
 				strQP += ' --KI=' + KI
 				strQP += ' --KD=' + KD
+				strQP += ' --SP=' + SP
 				strQP += ' --BudgetAlgorithm=' + budget
 				strQP += ' > HM_out.txt 2> HM_warn.txt'
 				execLine = strSeq + strQP
@@ -66,7 +79,7 @@ for config in configs:
 				system("mkdir -p "+ sequence + '_' + config + '_RDO')
 				system("cp -r "+ 'QP_* ./' + sequence + '_' + config + '_RDO')
 			else:
-				config = config + '_budget=' + budget + '_KPKIKD=' + ('_').join(KP,KI,KD)
+				config = config + 'TimeFactor=' + time_factor + '_Budget=' + budget + '_KPKIKD=' + ('_').join(KP,KI,KD)
 				system("mkdir -p "+ sequence + '_' + config)
 				system("cp -r "+ 'QP_* ./' + sequence + '_' + config)
 			system("rm -rf QP_*")

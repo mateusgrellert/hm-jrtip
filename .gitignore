@@ -6,3 +6,4 @@ bin/*.bin
 bin/Debug/*
 bin/Release/*
 .svn/*
+bin_*
