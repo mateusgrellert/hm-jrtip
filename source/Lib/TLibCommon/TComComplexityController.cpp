@@ -52,27 +52,27 @@ Double TComComplexityController::calcPID(UInt n, UInt t_layer){
     PV = calcAchievedComp();
     nEncoded = (n-4-NUM_RD_FRAMES+1);
     prevError = error;
-    int nmod64 = nEncoded % 32;
+    //int nmod64 = nEncoded % 32;
     TComComplexityBudgeter::activateControl = true;
     
 //        nEncoded = (n-NUM_RD_FRAMES) % 60;
 
-//       
-    if(SP*(0.4-0.1*(int)(nEncoded/32)) != new_SP){
-        accumError = 0;
-        prevError = 0;
-        PV_avg = PV;
-    }
-    else
-        PV_avg = (PV_avg*(nmod64-1)+PV)/(nmod64);
-
-        new_SP = SP*(0.4-0.1*(int)(nEncoded/32));
+////       
+//    if(SP*(0.4-0.1*(int)(nEncoded/32)) != new_SP){
+//        accumError = 0;
+//        prevError = 0;
+//        PV_avg = PV;
+//    }
+//    else
+//        PV_avg = (PV_avg*(nmod64-1)+PV)/(nmod64);
+//
+//        new_SP = SP*(0.4-0.1*(int)(nEncoded/32));
 
 
     
-    //PV_avg = (PV_avg*(nEncoded-1)+PV)/(nEncoded);
+    PV_avg = (PV_avg*(nEncoded-1)+PV)/(nEncoded);
 
-        error = new_SP - PV;
+        error = SP - PV;
     
   //  if(nEncoded % 4 == 0)
     //    accumError = 0.0;
