@@ -4,7 +4,7 @@ vet = []
 i = 0
 for path in os.listdir('./'):
 	row = []
-	if 'Target' in path:
+	if 'SP' in path:
 		[kp,ki,kd] = path.split('_')[2:5]
 		f = open(path,'r')
 		row.append("/".join([kp,ki,kd]))

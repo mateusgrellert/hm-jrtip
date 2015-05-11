@@ -1,0 +1,2 @@
+MaxPartitionDepth=4 QuadtreeTUMaxDepthInter=3 AMP=0 SearchRange=64 HadamardME=1 NumRefs=3
+MaxPartitionDepth=1 QuadtreeTUMaxDepthInter=1 AMP=0 SearchRange=8 HadamardME=0 NumRefs=2

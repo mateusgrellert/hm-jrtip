@@ -68,11 +68,11 @@ Double TComComplexityController::calcPID(UInt n, UInt t_layer){
 //
 //        new_SP = SP*(0.4-0.1*(int)(nEncoded/32));
 
-
+    new_SP = SP;
     
     PV_avg = (PV_avg*(nEncoded-1)+PV)/(nEncoded);
 
-        error = SP - PV;
+        error = new_SP - PV;
     
   //  if(nEncoded % 4 == 0)
     //    accumError = 0.0;

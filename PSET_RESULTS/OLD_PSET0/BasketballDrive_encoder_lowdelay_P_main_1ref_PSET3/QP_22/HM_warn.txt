@@ -1,0 +1,6 @@
+Unknown option: `NumRefs' (value:`1')
+******************************************************************
+** WARNING: --SEIDecodedPictureHash is now disabled by default. **
+**          Automatic verification of decoded pictures by a     **
+**          decoder requires this option to be enabled.         **
+******************************************************************

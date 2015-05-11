@@ -47,8 +47,7 @@ for config in configs:
 
 			if sequence == 'BasketballDrill':
 				seq_path = os.popen('ls ' + path_to_yuv +sequence+'_*').readlines()
-
-			if sequence == 'RaceHorsesC':
+			elif sequence == 'RaceHorsesC':
 				seq_path = os.popen('ls ' + path_to_yuv +sequence +'*8*').readlines()
 			else:
 				seq_path = os.popen('ls ' + path_to_yuv +sequence + '*').readlines()

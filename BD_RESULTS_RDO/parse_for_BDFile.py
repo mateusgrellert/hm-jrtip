@@ -36,11 +36,15 @@ for seq in sequences:
 	found = False
 	for dir in os.listdir('./'):
 		if seq in dir:
-			if seq == BasketballDrill and BasketballDrillText in dir:
-				continue
-			if seq == RaceHorses and RaceHorsesC in dir:
-				continue
 			found = True
+			if seq == 'BasketballDrill' and 'BasketballDrillText' in dir:
+				continue
+			if seq == 'RaceHorses' and 'RaceHorsesC' in dir:
+				continue
+			if seq == 'BasketballDrillText' and 'BasketballDrill_' in dir:
+				continue
+			if seq == 'RaceHorsesC' and 'RaceHorses_' in dir:
+				continue
 			for qp in QPs:
 				output_vet = []
 				if QPs.index(qp) == 0:

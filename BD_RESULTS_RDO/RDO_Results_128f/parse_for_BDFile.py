@@ -27,7 +27,7 @@ def parseOutput(dir,qp):
 
 
 sequences = ["Traffic","PeopleOnStreet","Nebuta","SteamLocomotive","Kimono","ParkScene","Cactus","BasketballDrive","BQTerrace"]
-sequences = sequences + ["BasketballDrill","BQMall","PartyScene","RaceHorses","BasketballPass","BQSquare","BlowingBubbles","RaceHorses"]
+sequences = sequences + ["BasketballDrill","BQMall","PartyScene","RaceHorsesC","BasketballPass","BQSquare","BlowingBubbles","RaceHorses"]
 sequences = sequences + ["FourPeople","Johnny","KristenAndSara","BasketballDrillText","ChinaSpeed","SlideEditing","SlideShow"]
 
 QPs = ['22','27','32','37']
@@ -37,6 +37,14 @@ for seq in sequences:
 	for dir in os.listdir('./'):
 		if seq in dir:
 			found = True
+			if seq == 'BasketballDrill' and 'BasketballDrillText' in dir:
+				continue
+			if seq == 'RaceHorses' and 'RaceHorsesC' in dir:
+				continue
+			if seq == 'BasketballDrillText' and 'BasketballDrill_' in dir:
+				continue
+			if seq == 'RaceHorsesC' and 'RaceHorses_' in dir:
+				continue
 			for qp in QPs:
 				output_vet = []
 				if QPs.index(qp) == 0:
