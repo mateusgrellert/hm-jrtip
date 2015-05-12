@@ -1157,12 +1157,12 @@ Void TEncGOP::compressGOP( Int iPOCLast, Int iNumPicRcvd, TComList<TComPic*>& rc
              if(pcSlice->getPic()->getPOC() >  3 + NUM_RD_FRAMES){
 //              TComComplexityController::setSP();
 
-          //Double controlOut = TComComplexityController::calcPID(pcSlice->getPic()->getPOC(), m_pcCfg->getGOPEntry(pcPic->getPOC()).m_QPOffset);
+          Double controlOut = TComComplexityController::calcPID(pcSlice->getPic()->getPOC(), m_pcCfg->getGOPEntry(pcPic->getPOC()).m_QPOffset);
 
           //if(TComComplexityBudgeter::isConstrained()){
               //TComComplexityBudgeter::calcDominantDirection();
           //if(pcSlice->getPic()->getPOC() % 4 == 1){
-              TComComplexityBudgeter::setFrameBudget(TComComplexityController::SP );
+              TComComplexityBudgeter::setFrameBudget(controlOut );
 
               TComComplexityBudgeter::distributeBudget();
                  TComComplexityController::printPIDStats();

@@ -231,7 +231,10 @@ Void TEncCu::compressCtu( TComDataCU* pCtu )
 
   // analysis of CU
   DEBUG_STRING_NEW(sDebug)
-
+#if EN_COMPLEXITY_MANAGING
+    TComComplexityBudgeter::init_ctu_time = clock();
+#endif
+    
   xCompressCU( m_ppcBestCU[0], m_ppcTempCU[0], 0 DEBUG_STRING_PASS_INTO(sDebug) );
   DEBUG_STRING_OUTPUT(std::cout, sDebug)
 
@@ -244,6 +247,11 @@ Void TEncCu::compressCtu( TComDataCU* pCtu )
     }
   }
 #endif
+#if EN_COMPLEXITY_MANAGING
+    TComComplexityBudgeter::end_ctu_time = clock();
+    TComComplexityBudgeter::setTimeHistory(pCtu);
+#endif
+    
 }
 /** \param  pcCU  pointer of CU data class
  */

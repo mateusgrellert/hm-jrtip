@@ -5,7 +5,11 @@
 using namespace std;
 
 Int64 TComComplexityBudgeter::countBudget[NUM_PSETS];
-UInt new_hist[50][50];
+double new_hist[50][50];
+long TComComplexityBudgeter::init_ctu_time;
+long TComComplexityBudgeter::end_ctu_time;
+double TComComplexityBudgeter::max_ctu_time;
+double TComComplexityBudgeter::min_ctu_time;
 vector<vector <cuStats> > TComComplexityBudgeter::history;
 vector<vector <config> > TComComplexityBudgeter::configMap;
 vector<Double> TComComplexityBudgeter::weightsVector;
@@ -46,6 +50,8 @@ Void TComComplexityBudgeter::init(UInt w, UInt h, UInt gopSize, UInt intraP){
     picHeight = h;
     hadME = 1;
     en_FME = 1;
+    max_ctu_time = 0.0;
+    min_ctu_time = 9999.99;
     testAMP = 1;
     activateControl = false;
     searchRange = 64;
@@ -85,9 +91,9 @@ Void TComComplexityBudgeter::init(UInt w, UInt h, UInt gopSize, UInt intraP){
 void TComComplexityBudgeter::setDepthHistory(TComDataCU *&pcCU, UInt pu_idx){
       
     //TODO: implement CU extrapolation
-    UInt x = pcCU->getCUPelX();
-    UInt y = pcCU->getCUPelY();
-    UInt d = pcCU->getDepth(pu_idx);
+   // UInt x = pcCU->getCUPelX();
+   // UInt y = pcCU->getCUPelY();
+   // UInt d = pcCU->getDepth(pu_idx);
     Int xP, yP, nPSW, nPSH;
     
 //    Double theta = -1;
@@ -98,7 +104,7 @@ void TComComplexityBudgeter::setDepthHistory(TComDataCU *&pcCU, UInt pu_idx){
     pcCU->getPartPosition(pu_idx, xP, yP, nPSW, nPSH);
 
    //history[x >> 6][y >> 6].first = d;
-    new_hist[x >> 6][y >> 6] = d;
+   // new_hist[x >> 6][y >> 6] = d;
 //    if((pcCU->isIntra(pu_idx)) or (pcCU->isSkipped(pu_idx))){
 //        history[x >> 6][y >> 6].second[8] += ((nPSW*nPSH)/(64.0*64)); // no movement idx
 //    }
@@ -113,6 +119,23 @@ void TComComplexityBudgeter::setDepthHistory(TComDataCU *&pcCU, UInt pu_idx){
 //            history[x >> 6][y >> 6].second[idx] += ((nPSW*nPSH)/(64.0*64));
 //        }
 //    }
+    
+}
+
+void TComComplexityBudgeter::setTimeHistory(TComDataCU *&pcCU){
+    
+    //TODO: implement CU extrapolation
+    UInt x = pcCU->getCUPelX();
+    UInt y = pcCU->getCUPelY();
+
+    
+    //history[x >> 6][y >> 6].first = d;
+    new_hist[x >> 6][y >> 6] = (double)(end_ctu_time - init_ctu_time)*1.0/CLOCKS_PER_SEC*1.0;
+    
+    if (new_hist[x >> 6][y >> 6] > max_ctu_time)
+        max_ctu_time = new_hist[x >> 6][y >> 6];
+    else if(new_hist[x >> 6][y >> 6] < min_ctu_time)
+        min_ctu_time = new_hist[x >> 6][y >> 6];
     
 }
 
@@ -340,47 +363,43 @@ Void TComComplexityBudgeter::setPSetToAllCTUs(UInt pset) {
 Void TComComplexityBudgeter::ICIPBudget(){
     Double estCycleCount = 0.0;
     UInt new_pset;
+    
+    double time_step = (double)(max_ctu_time-min_ctu_time)/NUM_PSETS;
 
+    
     // first step - set HIGH and LOW configs and estimate cycle count
     for(int i = 0; i < history.size(); i++){
         for(int j = 0; j < history[0].size(); j++){
             if (new_hist[i][j] == -1)
                         continue;
-                   
-            if(new_hist[i][j] == 0){ //set LOW budget!
+            
+            if(new_hist[i][j] >= min_ctu_time and (new_hist[i][j] < min_ctu_time + time_step)){
+                setConfigMap(i,j,PS20);
+                estCycleCount = updateEstimationAndStats(estCycleCount,-1,PS20);
+            }
+            
+            else if(new_hist[i][j] >= min_ctu_time + time_step and (new_hist[i][j] < min_ctu_time + 2*time_step)){
                 setConfigMap(i,j,PS40);
                 estCycleCount = updateEstimationAndStats(estCycleCount,-1,PS40);
             }
-            
-            else if(new_hist[i][j] == 3){ //set HIGH budget!
-                setConfigMap(i,j,PS100);
-                estCycleCount = updateEstimationAndStats(estCycleCount,-1,PS100);
-            }
-            else{
+            else if((new_hist[i][j] >= min_ctu_time + 2*time_step) and (new_hist[i][j] < min_ctu_time + 3*time_step)){
                 setConfigMap(i,j,PS60);
                 estCycleCount = updateEstimationAndStats(estCycleCount,-1,PS60);
+            }
+            else if((new_hist[i][j] >= min_ctu_time + 3*time_step) and (new_hist[i][j] < min_ctu_time + 4*time_step)){
+                setConfigMap(i,j,PS80);
+                estCycleCount = updateEstimationAndStats(estCycleCount,-1,PS80);
+            }
+            else{
+                setConfigMap(i,j,PS100);
+                estCycleCount = updateEstimationAndStats(estCycleCount,-1,PS100);
             }
         }
     }
     
            // second step - start demoting until available computation is reached
     
-    UInt promote_pset = PS20;
-    
-    while(promote_pset > PS100){ // maximum #iterations -- all PSETs are already set to PS100
-        for(int i = 0; i < history.size() and estCycleCount < frameBudget; i++){
-            for(int j = 0; j < history[0].size() and estCycleCount < frameBudget; j++){
-                if (new_hist[i][j] == -1) // sometimes the history table has more nodes than CTUs
-                    continue;
 
-                    if(configMap[i][j][7] == promote_pset){
-                        new_pset = promote(i,j);
-                        estCycleCount = updateEstimationAndStats(estCycleCount,promote_pset,new_pset);
-                    }
-            }
-        }
-        promote_pset--;
-    }
     
     UInt demote_pset = PS100;
 
@@ -399,8 +418,27 @@ Void TComComplexityBudgeter::ICIPBudget(){
         }          
         demote_pset++;
     }
+    
+    UInt promote_pset = PS20;
+    
+    while(promote_pset > PS100){ // maximum #iterations -- all PSETs are already set to PS100
+        for(int i = 0; i < history.size() and estCycleCount < frameBudget; i++){
+            for(int j = 0; j < history[0].size() and estCycleCount < frameBudget; j++){
+                if (new_hist[i][j] == -1) // sometimes the history table has more nodes than CTUs
+                    continue;
+                
+                if(configMap[i][j][7] == promote_pset){
+                    new_pset = promote(i,j);
+                    estCycleCount = updateEstimationAndStats(estCycleCount,promote_pset,new_pset);
+                }
+            }
+        }
+        promote_pset--;
+    }
+    
     estimatedComp = estCycleCount;
-
+    max_ctu_time = 0.0;
+    min_ctu_time = 9999.99;
 }
 
 

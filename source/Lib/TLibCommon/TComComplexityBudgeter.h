@@ -22,7 +22,8 @@ class TComComplexityBudgeter {
 public:
     static vector<vector <cuStats> > history;
     static vector<vector <config> > configMap;
-
+    static long init_ctu_time, end_ctu_time;
+    static double max_ctu_time, min_ctu_time;
     static vector<Double> weightsVector;
     static Double frameBudget,estimatedComp;
     static UInt origGop;
@@ -73,6 +74,7 @@ public:
     static Double updateEstimationAndStats(Double est, Int old, UInt neww);
 
     static Void setDepthHistory(TComDataCU *&, UInt);
+    static Void setTimeHistory(TComDataCU *&);
     static Void setVectorHistory(UInt, UInt, UInt);
     static Double calcWeight(UInt);
     static Void setFrameBudget(Double);
