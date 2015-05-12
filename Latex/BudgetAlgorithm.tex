@@ -1,0 +1,205 @@
+
+\documentclass{article}
+
+\usepackage{etex}
+\usepackage[utf8]{inputenc}
+%algorithms
+\usepackage{algorithmic}
+
+\usepackage[ruled,lined,linesnumbered]{algorithm2e}
+
+\usepackage{mathtools}
+
+\usepackage[english]{babel} % I would use English
+
+
+\begin{document}
+
+
+\title{Algorithms}
+
+\newcommand{\LINEIF}[2]{%
+    \STATE\algorithmicif\ {#1}\ \algorithmicthen\ {#2}%
+}
+\newcommand{\LINEELSE}[1]{%
+    \STATE\algorithmicelse\ {#1} \algorithmicend\ \algorithmicif%
+}
+
+\begin{algorithm}[tbh]
+\label{algo:swfill}
+
+        
+        \SetKwData{currframe}{$Frame$}
+		\SetKwData{budget}{$B_{F}$}		
+       	\SetKwData{la}{$\leftarrow$}
+      	\SetKwData{cycles}{$Est_{Cycles}$}
+      	\SetKwData{promoDepth}{$Promote_{Depth}$}
+
+        \SetKwFunction{set}{set}
+        \SetKwFunction{updateEst}{updateEstimation}
+        \SetKwFunction{promote}{promote}
+
+
+        \SetKwInOut{Input}{input}\SetKwInOut{Output}{output}
+
+        \Input{\currframe: current frame}
+        \Input{\budget: frame budget}
+
+        \BlankLine
+
+
+        \For{ \textbf{each} $CTU$ \textbf{in} \currframe}
+        {
+			\set{PS80, CTU}\;
+			\cycles \la \updateEst{PS20}\;
+			\promoDepth \la 4\;
+			\BlankLine
+			\While{$\budget < \cycles$}{
+        				\For{ \textbf{each} $CTU$ \textbf{with} \promoDepth \textbf{in} \currframe}
+				{
+					\promote{CTU}\;
+					\cycles \la \updateEst{PS$x$}\;
+				}
+				\promoDepth$--$\;
+			}
+				
+	}
+				
+		                         
+\caption{Bottom-Up Budgeting algorithm}
+\end{algorithm}
+
+
+
+
+
+
+\begin{algorithm}[tbh]
+\label{algo:swfill}
+
+        
+		\SetKwData{currframe}{$Frame$}
+		\SetKwData{budget}{$B_{F}$}		
+	   	\SetKwData{la}{$\leftarrow$}
+	  	\SetKwData{cycles}{$Est_{Cycles}$}
+	  	\SetKwData{promoDepth}{$Promote_{Depth}$}
+		\SetKwData{demoDepth}{$Demote_{Depth}$}
+		\SetKwData{ddepth}{$Depth$}
+	
+        \SetKwFunction{set}{set}
+        \SetKwFunction{updateEst}{updateEstimation}
+        \SetKwFunction{demote}{demote}
+        \SetKwFunction{promote}{promote}
+
+
+        \SetKwInOut{Input}{input}\SetKwInOut{Output}{output}
+
+        \Input{\currframe: current frame}
+        \Input{\budget: frame budget}
+
+        \BlankLine
+         \tcp {Assigns fixed PSets based on collocated CTU depth}
+        
+        \For{ \textbf{each} $CTU$ \textbf{with} \ddepth=1 \textbf{in} \currframe}
+        {
+	        \tcp {assign few computations low complexity CTUs}
+        		\set{PS20, CTU}\;			
+		\cycles \la \updateEst{PS20}\;
+        }
+        \For{ \textbf{each} $CTU$ \textbf{with} \ddepth=4 \textbf{in} \currframe}
+        {
+        			\tcp {assign more computations to high CTU depths}
+        			\set{PS100, CTU}\;	
+			\cycles \la \updateEst{PS100}\;
+        }
+        \For{ \textbf{each} $CTU$ \textbf{with} \ddepth=2,3 \textbf{in} \currframe}
+        {
+        			\tcp {assigns intermediate computations to other CTUs}
+        			\set{PS60, CTU}\;	
+			\cycles \la \updateEst{PS60}\;
+        }
+        \BlankLine
+        \tcp {Refinement in case there is more/less budget}
+        \BlankLine
+	\demoDepth \la 1\;
+	\BlankLine
+
+	\While{$\budget > \cycles$}{
+         	\For{ \textbf{each} $CTU$ \textbf{with} \demoDepth \textbf{in} \currframe}
+		{
+			\demote{CTU}\;
+			\cycles \la \updateEst{PS$x$}\;
+		}
+		\demoDepth$++$\;
+	}       
+	
+	\promoDepth \la 3\;
+	\BlankLine
+
+	\While{$\budget < \cycles$}{
+         	\For{ \textbf{each} $CTU$ \textbf{with} \demoDepth \textbf{in} \currframe}
+		{
+			\promote{CTU}\;
+			\cycles \la \updateEst{PS$x$}\;
+		}
+		\promoDepth$--$\;
+	}   
+			
+		                         
+\caption{Priority-Based Budgeting algorithm}
+\end{algorithm}
+
+
+
+
+\begin{algorithm}[tbh]
+\label{algo:swfill}
+
+        
+        \SetKwData{currframe}{$Frame$}
+		\SetKwData{budget}{$B_{F}$}		
+		\SetKwData{nCTU}{$N_{CTU}$}		
+		\SetKwData{fw}{$Frame_{width}$}		
+		\SetKwData{fh}{$Frame_{height}$}		
+       	\SetKwData{la}{$\leftarrow$}
+      	\SetKwData{cycles}{$Est_{Cycles}$}
+      	\SetKwData{promoDepth}{$Promote_{Depth}$}
+
+        \SetKwFunction{set}{set}
+        \SetKwFunction{updateEst}{updateEstimation}
+        \SetKwFunction{promote}{promote}
+
+
+        \SetKwInOut{Input}{input}\SetKwInOut{Output}{output}
+
+        \Input{\currframe: current frame}
+        \Input{\budget: frame budget}
+
+        \BlankLine
+		\nCTU = \fw*\fh/(64*64)\;
+       
+        \For{ PS$x$ \la $PS0$ \textbf{to} $PS80$}
+	{
+		\cycles \la \updateEst{PS$x$}*\nCTU\;
+		\BlankLine
+		\tcp{if budget was not exceeded, update best PS}
+		\If{ \cycles < \budget}
+		{
+			$PS_{best}$ \la PS$x$\;
+		}
+	}
+
+        \For{ \textbf{each} $CTU$ \textbf{in} \currframe}
+        {
+			\set{$PS_{best}$, CTU}\;				
+	}
+				
+		                         
+\caption{Uniform Budgeting algorithm}
+\end{algorithm}
+
+
+
+
+\end{document}
+deutsche

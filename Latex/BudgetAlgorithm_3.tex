@@ -1,0 +1,149 @@
+
+%\documentclass{article}
+\documentclass{article}
+\usepackage{etex}
+\usepackage[utf8]{inputenc}
+%algorithms
+\usepackage{clrscode3e}
+
+\usepackage[ruled,lined,linesnumbered]{algorithm2e}
+
+\usepackage{mathtools}
+
+\usepackage[english]{babel} % I would use English
+
+
+\begin{document}
+
+
+\title{Algorithms}
+
+\newcommand{\LINEIF}[2]{%
+    \STATE\algorithmicif\ {#1}\ \algorithmicthen\ {#2}%
+}
+\newcommand{\LINEELSE}[1]{%
+    \STATE\algorithmicelse\ {#1} \algorithmicend\ \algorithmicif%
+}
+
+\begin{algorithm}[tbh]
+\label{algo:swfill}
+
+        
+        \SetKwData{currframe}{$Frame$}
+		\SetKwData{budget}{$Budget_{Frame}$}		
+       	\SetKwData{la}{$\leftarrow$}
+      	\SetKwData{cycles}{$Estimated_{Comp}$}
+      	\SetKwData{promoDepth}{$Promote_{PSet}$}
+
+        \SetKwFunction{set}{set}
+        \SetKwFunction{updateEst}{updateEstimation}
+        \SetKwFunction{promote}{promote}
+
+
+        \SetKwInOut{Input}{input}\SetKwInOut{Output}{output}
+
+        \Input{\currframe: current frame}
+        \Input{\budget: frame budget}
+
+        \BlankLine
+
+
+        \For{ \textbf{each} $CTU$ \textbf{in} \currframe}
+        {
+			\set{PS20, CTU}\;
+		}
+		\cycles \la \updateEst{}\;
+		\promoDepth \la PS20\;
+		\BlankLine
+		\While{$\cycles > \budget$}{
+        	\For{ \textbf{each} $CTU$ \textbf{with} \promoDepth \textbf{in} \currframe}
+			{
+				\promote{CTU}\;
+			}
+			\cycles \la \updateEst{}\;
+			\promoDepth$++$\;
+		}
+				
+	
+				
+		                         
+\caption{Bottom-Up Budgeting}
+\end{algorithm}
+
+
+
+
+
+
+\begin{algorithm}[tbh]
+\label{algo:swfill}
+
+        
+		\SetKwData{currframe}{$Frame$}
+		\SetKwData{budget}{$Budget_{Frame}$}		
+	   	\SetKwData{la}{$\leftarrow$}
+	  	\SetKwData{cycles}{$Estimated_{Comp}$}
+	  	\SetKwData{promoDepth}{$Promote_{PSet}$}
+		\SetKwData{demoDepth}{$Demote_{PSet}$}
+		\SetKwData{ddepth}{$CTU_{Depth}$}
+	
+        \SetKwFunction{set}{set}
+        \SetKwFunction{updateEst}{updateEstimation}
+        \SetKwFunction{demote}{demote}
+        \SetKwFunction{promote}{promote}
+
+
+        \SetKwInOut{Input}{input}\SetKwInOut{Output}{output}
+
+        \Input{\currframe: current frame}
+        \Input{\budget: frame budget}
+
+        \BlankLine
+
+        \For{ \textbf{each} $CTU$  \textbf{in} \currframe}
+        {
+			\Switch{\ddepth}{
+				\lCase{4}{\set{PS100, CTU}}
+				\lCase{1}{\set{PS20, CTU}}
+				\lCase{others}{\set{PS60, CTU}}
+			}
+		}
+
+		\cycles \la \updateEst{}\;
+        \BlankLine
+        \tcp {Refinement in case there is more/less budget}
+        \BlankLine
+	\demoDepth \la PS100\;
+	\BlankLine
+
+	\While{$\cycles < \budget$}{
+         \For{ \textbf{each} $CTU$ \textbf{with} \demoDepth \textbf{in} \currframe}
+		{
+			\demote{CTU}\;
+		}
+		\cycles \la \updateEst{PS$x$}\;
+		\demoDepth$--$\;
+	}       
+	
+	\promoDepth \la PS20\;
+	\BlankLine
+
+	\While{$\cycles < \budget$}{
+         \For{ \textbf{each} $CTU$ \textbf{with} \demoDepth \textbf{in} \currframe}
+		{
+			\promote{CTU}\;
+
+		}
+		\cycles \la \updateEst{}\;
+		\promoDepth$++$\;
+	}   
+			
+		                         
+\caption{Priority-Based Budgeting}
+\end{algorithm}
+
+
+
+
+\end{document}
+
