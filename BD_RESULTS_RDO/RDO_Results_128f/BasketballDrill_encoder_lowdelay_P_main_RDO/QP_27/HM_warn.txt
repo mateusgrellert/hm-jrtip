@@ -1,8 +1,8 @@
-Unknown option: `KP' (value:`0.4')
-Unknown option: `KI' (value:`0.84')
-Unknown option: `KD' (value:`0.4')
-Unknown option: `SP' (value:`0.0046875')
-Unknown option: `BudgetAlgorithm' (value:`0')
+Unknown option: `KP' (value:`0.84')
+Unknown option: `KI' (value:`0.42')
+Unknown option: `KD' (value:`0.42')
+Unknown option: `SP' (value:`0.0')
+Unknown option: `BudgetAlgorithm' (value:`3')
 ******************************************************************
 ** WARNING: --SEIDecodedPictureHash is now disabled by default. **
 **          Automatic verification of decoded pictures by a     **

@@ -4,9 +4,9 @@ import os
 
 
 
-inc = 1
-MIN_KP = 1
-MAX_KP = 20
+inc = 2
+MIN_KP = 2
+MAX_KP = 30
 
 MIN_KI = 0
 MAX_KI = 0
@@ -24,14 +24,14 @@ NUM_TRAIN_FRAMES = 0
 error = 1.05
 
 seq = "RaceHorsesC.cfg"
-sp = 5.888
+sp = 5.886
 
 
 for kp in range(MIN_KP, MAX_KP+1, inc):
 	for ki in range(MIN_KI, MAX_KI+1, inc):
 		for kd in range(MIN_KD, MAX_KD+1, inc):
 			numFrames = NUM_TRAIN_FRAMES + NUM_RDFRAMES + 64
-			line = ("./TAppEncoderStatic  -c ../cfg/encoder_lowdelay_P_main.cfg -c ~/hm-cfgs/cropped/%s -f %d -balg 3 --KP=%.2f --KI=%.2f --KD=%.2f --SP=%.2f --QP=%d > dummy.txt 2> warn.txt") % (seq, numFrames, kp/10.0, ki/10.0, kd/10.0, sp, qp)
+			line = ("./TAppEncoderStatic  -c ../cfg/encoder_lowdelay_P_main_fixQP.cfg -c ~/hm-cfgs/cropped/%s -f %d -balg 3 --KP=%.2f --KI=%.2f --KD=%.2f --SP=%.2f --QP=%d > dummy.txt 2> warn.txt") % (seq, numFrames, kp/10.0, ki/10.0, kd/10.0, sp, qp)
 			print line					
 			os.system(line)
 			os.system("mv controlOut.csv controlOut_SP="+str(sp)+"QP="+("_".join([str(x) for x in [qp, kp/10.0,ki/10.0,kd/10.0]]))+".csv")

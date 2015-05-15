@@ -1,1 +1,0 @@
-bash: ./TAppEncoderStatic: cannot execute binary file: Exec format error

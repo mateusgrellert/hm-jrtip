@@ -374,8 +374,8 @@ Void TComComplexityBudgeter::ICIPBudget(){
                         continue;
             
             if(new_hist[i][j] >= min_ctu_time and (new_hist[i][j] < min_ctu_time + time_step)){
-                setConfigMap(i,j,PS20);
-                estCycleCount = updateEstimationAndStats(estCycleCount,-1,PS20);
+                setConfigMap(i,j,PS40);
+                estCycleCount = updateEstimationAndStats(estCycleCount,-1,PS40);
             }
             
             else if(new_hist[i][j] >= min_ctu_time + time_step and (new_hist[i][j] < min_ctu_time + 2*time_step)){
