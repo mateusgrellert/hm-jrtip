@@ -26,30 +26,35 @@ path_to_input = argv[2]
 sequence_list = buildSequenceList(path_to_input)
 time_table = buildTimeTable()
 
-QP_list = ['22','27','32','37']
+QP_list = ['22', '27','32', '37']
 
 KP = '0.84'
 KI = '0.42'
 KD = '0.42'
 
-if 'rdo' in path_to_app:
+if 'RDO' in path_to_app:
 	RDO = True
 else:
 	RDO = False
 
-budget_list = ['3'] # 0 - Uniform Estimation 1 - Uniform Incremental 2 - BottomUp 3 - ICIP 4 - Set All to PS60
+budget_list = ['2'] # 0 - Uniform Estimation 1 - Uniform Incremental 2 - BottomUp 3 - ICIP 4 - Set All to PS60
 configs = ['encoder_lowdelay_P_main']
-time_factors = [0.4]
+time_factors = [0.8, 0.6, 0.4]
 
 for config in configs:
-	i = 0
 	for time_factor in time_factors:
+		
 		for [sequence, nFrames] in sequence_list:
 			for budget in budget_list:
-				if ('Nebuta' in sequence) or ('SteamLocomotive' in sequence):
-					strSeq = './' + path_to_app + ' -c ../cfg/'+config+'.cfg -c  /Users/grellert/hm-cfgs/cropped/'+sequence + '_10bit.cfg'
+				if not(RDO) and (time_factor > 0.4):
+					new_path_to_app = path_to_app + '_NOPSET20'
 				else:
-					strSeq = './' + path_to_app + ' -c ../cfg/'+config+'.cfg -c  /Users/grellert/hm-cfgs/cropped/'+sequence + '.cfg'
+					new_path_to_app = path_to_app
+
+				if ('Nebuta' in sequence) or ('SteamLocomotive' in sequence):
+					strSeq = './' + new_path_to_app + ' -c ../cfg/'+config+'.cfg -c  /Users/grellert/hm-cfgs/cropped/'+sequence + '_10bit.cfg'
+				else:
+					strSeq = './' + new_path_to_app + ' -c ../cfg/'+config+'.cfg -c  /Users/grellert/hm-cfgs/cropped/'+sequence + '.cfg'
 
 				if sequence == 'BasketballDrill':
 					seq_path = os.popen('ls ' + path_to_yuv +sequence+'_*').readlines()
@@ -62,8 +67,7 @@ for config in configs:
 
 				strSeq += ' --InputFile=\"'+seq_path+'\"'
 				strSeq += ' --FramesToBeEncoded=' + nFrames
-				i += 1
-				j = 0
+
 				for QP in QP_list:
 
 
@@ -86,8 +90,6 @@ for config in configs:
 					system("cp -r *csv ./QP_"+QP)
 					system("cp -r *txt ./QP_"+QP)
 					system("rm *csv *txt")
-
-					j += 1
 
 				if RDO:
 					system("mkdir -p "+ sequence + '_' + config + '_RDO')
