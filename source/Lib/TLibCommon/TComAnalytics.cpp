@@ -352,8 +352,8 @@ Int TComAnalytics::getYOffSetInPU(Int d, Int PUIdx, PartSize partSize){
 }
 
 Void TComAnalytics::setPOC(UInt poc){
-    //TComAnalytics::openTimingFile();
-  //  cuTimingFile << "POC\t" << poc << endl;
+    TComAnalytics::openTimingFile();
+    cuTimingFile << "POC\t" << poc << endl;
    // if (poc > 0)
       //  hsvFile << "EOP" << endl;
     //hsvFile << "POC;" << poc << endl;

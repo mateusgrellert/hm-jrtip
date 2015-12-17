@@ -491,7 +491,7 @@ Void TAppEncTop::encode()
 
   m_cTEncTop.printSummary(m_isField);
 #if EN_ANALYTICS
-   // TComAnalytics::report();
+    TComAnalytics::report();
 #endif
 
   // delete original YUV buffer

@@ -13,17 +13,28 @@
 #define NUM_RD_FRAMES 4
 #define NUM_TRAINING_FRAMES 0
 
-
+#define USE_SYSTEM_SPECS 1
 
 #define CYCLES_ADD 1
 #define CYCLES_SUB 1
 #define CYCLES_MULT 4
 
+#if USE_SYSTEM_SPECS
+
+double CYCLES_SAD[4] = {};
+double CYCLES_SSE[4] = {};
+double CYCLES_SATD[4] = {};
+double CYCLES_TRANSF[4] = {};
+double CYCLES_INTERPOL[4] = {};
+
+#else
+
 #define CYCLES_SAD 64
 #define CYCLES_SSE 256
 #define CYCLES_SATD 256
-#define CYCLES_TRANSF 544 // 64x64 transform
+#define CYCLES_TRANSF 136 // 32x32 transform
 
+#endif
 
 #define MANAGE_GOP 500 // same as I-period
 

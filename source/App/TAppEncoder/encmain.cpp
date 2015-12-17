@@ -40,6 +40,7 @@
 #include "TAppEncTop.h"
 #include "TAppCommon/program_options_lite.h"
 #include "TLibCommon/TComComplexityManagement.h"
+#include "TLibCommon/TComAnalytics.h"
 
 //! \ingroup TAppEncoder
 //! \{
@@ -102,14 +103,13 @@ int main(int argc, char* argv[])
   dResult = (Double)(clock()-lBefore) / CLOCKS_PER_SEC;
   printf("\n Total Time: %12.3f sec.\n", dResult);
 #if EN_ANALYTICS
-//  TComAnalytics::RDTimeFile << ";;;;" << dResult << endl;
- // TComAnalytics::avgRDTimeFile << dResult << endl;
- // TComAnalytics::RDTimeFile.close();
- // TComAnalytics::avgRDTimeFile.close();
+  TComAnalytics::RDTimeFile << ";;;;" << dResult << endl;
+ TComAnalytics::avgRDTimeFile << dResult << endl;
+ TComAnalytics::RDTimeFile.close();
+ TComAnalytics::avgRDTimeFile.close();
 #endif
   // destroy application encoder class
   cTAppEncTop.destroy();
-
   return 0;
 }
 
