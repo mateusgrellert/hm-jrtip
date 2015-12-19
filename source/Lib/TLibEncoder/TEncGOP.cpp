@@ -1184,7 +1184,7 @@ Void TEncGOP::compressGOP( Int iPOCLast, Int iNumPicRcvd, TComList<TComPic*>& rc
 #endif
 
 #if EN_ANALYTICS
-      TComAnalytics::setPOC(pcPic->getPOC());
+    //  TComAnalytics::setPOC(pcPic->getPOC());
       TComAnalytics::resetStats();
 #endif  
           

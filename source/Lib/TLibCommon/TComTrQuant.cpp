@@ -389,9 +389,9 @@ Void partialButterfly4(TCoeff *src, TCoeff *dst, Int shift, Int line)
 {
     
     #if EN_ANALYTICS
-  TComAnalytics::incAdds(6*line);
-  TComAnalytics::incSubs(2*line);
-  TComAnalytics::incMults(8*line);
+  //TComAnalytics::incAdds(6*line);
+  //TComAnalytics::incSubs(2*line);
+  //TComAnalytics::incMults(8*line);
 #endif
   Int j;
   TCoeff E[2],O[2];
@@ -476,9 +476,9 @@ Void partialButterflyInverse4(TCoeff *src, TCoeff *dst, Int shift, Int line, con
 {
     
     #if EN_ANALYTICS
-  TComAnalytics::incAdds(6*line);
-  TComAnalytics::incSubs(2*line);
-  TComAnalytics::incMults(8*line);
+  //TComAnalytics::incAdds(6*line);
+  //TComAnalytics::incSubs(2*line);
+  //TComAnalytics::incMults(8*line);
 #endif
   Int j;
   TCoeff E[2],O[2];
@@ -512,9 +512,9 @@ Void partialButterfly8(TCoeff *src, TCoeff *dst, Int shift, Int line)
 {
     
     #if EN_ANALYTICS
-  TComAnalytics::incAdds(22*line);
-  TComAnalytics::incSubs(6*line);
-  TComAnalytics::incMults(24*line);
+  //TComAnalytics::incAdds(22*line);
+  //TComAnalytics::incSubs(6*line);
+  //TComAnalytics::incMults(24*line);
 #endif
   Int j,k;
   TCoeff E[4],O[4];
@@ -559,9 +559,9 @@ Void partialButterflyInverse8(TCoeff *src, TCoeff *dst, Int shift, Int line, con
 {
     
     #if EN_ANALYTICS
-  TComAnalytics::incAdds(22*line);
-  TComAnalytics::incSubs(6*line);
-  TComAnalytics::incMults(24*line);
+  //TComAnalytics::incAdds(22*line);
+  //TComAnalytics::incSubs(6*line);
+  //TComAnalytics::incMults(24*line);
 #endif
   Int j,k;
   TCoeff E[4],O[4];
@@ -610,9 +610,9 @@ Void partialButterfly16(TCoeff *src, TCoeff *dst, Int shift, Int line)
   TCoeff EEE[2],EEO[2];
   TCoeff add = (shift > 0) ? (1<<(shift-1)) : 0;
 #if EN_ANALYTICS
-  TComAnalytics::incAdds((18+12+56)*line);
-  TComAnalytics::incSubs(14*line);
-  TComAnalytics::incMults((8+16+64)*line);
+  //TComAnalytics::incAdds((18+12+56)*line);
+  //TComAnalytics::incSubs(14*line);
+  //TComAnalytics::incMults((8+16+64)*line);
 #endif
   for (j=0; j<line; j++)
   {
@@ -672,9 +672,9 @@ Void partialButterflyInverse16(TCoeff *src, TCoeff *dst, Int shift, Int line, co
   TCoeff EEE[2],EEO[2];
   TCoeff add = (shift > 0) ? (1<<(shift-1)) : 0;
 #if EN_ANALYTICS
-  TComAnalytics::incAdds((18+12+56)*line);
-  TComAnalytics::incSubs(14*line);
-  TComAnalytics::incMults((8+16+64)*line);
+  //TComAnalytics::incAdds((18+12+56)*line);
+  //TComAnalytics::incSubs(14*line);
+  //TComAnalytics::incMults((8+16+64)*line);
 #endif
   for (j=0; j<line; j++)
   {
@@ -732,9 +732,9 @@ Void partialButterfly32(TCoeff *src, TCoeff *dst, Int shift, Int line)
   TCoeff add = (shift > 0) ? (1<<(shift-1)) : 0;
 
 #if EN_ANALYTICS
-  TComAnalytics::incAdds((34+12+56+240)*line);
-  TComAnalytics::incSubs(30*line);
-  TComAnalytics::incMults((8+16+64+256)*line);
+  //TComAnalytics::incAdds((34+12+56+240)*line);
+  //TComAnalytics::incSubs(30*line);
+  //TComAnalytics::incMults((8+16+64+256)*line);
 #endif
   for (j=0; j<line; j++)
   {
@@ -809,9 +809,9 @@ Void partialButterflyInverse32(TCoeff *src, TCoeff *dst, Int shift, Int line, co
   TCoeff EEEE[2],EEEO[2];
   TCoeff add = (shift > 0) ? (1<<(shift-1)) : 0;
 #if EN_ANALYTICS
-  TComAnalytics::incAdds((34+12+56+240)*line);
-  TComAnalytics::incSubs(30*line);
-  TComAnalytics::incMults((8+16+64+256)*line);
+  //TComAnalytics::incAdds((34+12+56+240)*line);
+  //TComAnalytics::incSubs(30*line);
+  //TComAnalytics::incMults((8+16+64+256)*line);
 #endif
   for (j=0; j<line; j++)
   {

@@ -15,24 +15,25 @@
 
 #define USE_SYSTEM_SPECS 1
 
-#define CYCLES_ADD 1
-#define CYCLES_SUB 1
-#define CYCLES_MULT 4
+#define TIME_ADD 1
+#define TIME_SUB 1
+#define TIME_MULT 4
 
 #if USE_SYSTEM_SPECS
 
-double CYCLES_SAD[4] = {};
-double CYCLES_SSE[4] = {};
-double CYCLES_SATD[4] = {};
-double CYCLES_TRANSF[4] = {};
-double CYCLES_INTERPOL[4] = {};
+const double TIME_SAD[4] = {0.9863,0.3315,0.1762,0.1170};  // IN MICROSECONDS!!!!!!
+const double TIME_SSE[4] = {8.8339,1.9178,0.4331,0.0991};
+const double TIME_SATD[4] = {5.4230,1.4477,0.4282,0.1884};
+const double TIME_TRANSF[4] = {9.8506,1.7116,0.4342,0.2539};
+const double TIME_HALF_INTER[4] = {40.9460,9.9546,3.2599,1.4155};
+const double TIME_QUART_INTER[4] = {91.6610,21.5360,6.3011,2.2778};
 
 #else
 
-#define CYCLES_SAD 64
-#define CYCLES_SSE 256
-#define CYCLES_SATD 256
-#define CYCLES_TRANSF 136 // 32x32 transform
+#define TIME_SAD 64
+#define TIME_SSE 256
+#define TIME_SATD 256
+#define TIME_TRANSF 136 // 32x32 transform
 
 #endif
 
@@ -42,11 +43,13 @@ double CYCLES_INTERPOL[4] = {};
 #define TU 0.4
 #define NUM_STEPS_ZIEGLER 30 // for ziegler-nichols method
 
-#define KP 0.8
-#define KI 0.8
-//#define KI (2*KP/TU/4)
-#define KD 1.0
+//#define KP 0.84  // used in the paper
+//#define KI 0.42
+//#define KD 0.42
 
+#define KP 1  // for debuging
+#define KI 0
+#define KD 0
 
 
 #define NUM_PARAMS 7 // cu depth, tu depth, AMP, SE, HAD ME, num ref frames, FME

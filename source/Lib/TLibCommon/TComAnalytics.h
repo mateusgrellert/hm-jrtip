@@ -29,6 +29,8 @@ public:
     static Double divCount[MAX_CU_DEPTH][2];
     
     static Double transfCount[MAX_CU_DEPTH][2];
+    static Double interpolHalfCount[MAX_CU_DEPTH][2];
+    static Double interpolQuarterCount[MAX_CU_DEPTH][2];
     static Double transfCountTotal[MAX_CU_DEPTH][2];
     static UInt cuCount[MAX_CU_DEPTH]; 
 
@@ -70,6 +72,8 @@ public:
     static Void incSatdCount(UInt num);
     
     static Void incTransformsCount(UInt w, UInt h);
+    static Void incHalfInterpCount();
+    static Void incQuarterInterpCount();
 
     static Void incAdds(UInt num);
     static Void incSubs(UInt num);

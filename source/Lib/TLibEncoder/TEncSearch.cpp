@@ -4452,6 +4452,12 @@ Void TEncSearch::xPatternSearchFracDIF(
   if(TComComplexityBudgeter::en_FME){
 #endif
       if(m_pcEncCfg->getFME() >= 1){
+          
+#if EN_ANALYTICS
+          TComAnalytics::incHalfInterpCount();
+          TComAnalytics::incQuarterInterpCount();
+#endif
+
             //  Half-pel refinement
         xExtDIFUpSamplingH ( &cPatternRoi, biPred );
 

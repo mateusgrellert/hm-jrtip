@@ -73,8 +73,8 @@ Distortion TComRdCostWeightPrediction::xGetSADw( DistParam* pcDtParam )
 
   Distortion uiSum = 0;
 #if EN_ANALYTICS
-  TComAnalytics::incAdds(pcDtParam->iRows*iCols);
-  TComAnalytics::incSubs(pcDtParam->iRows*iCols);
+  //TComAnalytics::incAdds(pcDtParam->iRows*iCols);
+  //TComAnalytics::incSubs(pcDtParam->iRows*iCols);
   TComAnalytics::incSadCount(pcDtParam->iRows*iCols);
 #endif
   for(Int iRows = pcDtParam->iRows; iRows != 0; iRows-- )
@@ -123,9 +123,9 @@ Distortion TComRdCostWeightPrediction::xGetSSEw( DistParam* pcDtParam )
 
   Distortion sum = 0;
 #if EN_ANALYTICS
-  TComAnalytics::incAdds(pcDtParam->iRows*iCols);
-  TComAnalytics::incSubs(pcDtParam->iRows*iCols);
-  TComAnalytics::incMults(pcDtParam->iRows*iCols);
+  //TComAnalytics::incAdds(pcDtParam->iRows*iCols);
+  //TComAnalytics::incSubs(pcDtParam->iRows*iCols);
+  //TComAnalytics::incMults(pcDtParam->iRows*iCols);
   TComAnalytics::incSseCount(pcDtParam->iRows*iCols);
 #endif
   for(Int iRows = pcDtParam->iRows ; iRows != 0; iRows-- )
@@ -170,8 +170,8 @@ Distortion xCalcHADs2x2w( const WPScalingParam &wpCur, const Pel *piOrg, const P
 
   Pel   pred;
 #if EN_ANALYTICS
-  TComAnalytics::incAdds(8);
-  TComAnalytics::incSubs(8);
+  //TComAnalytics::incAdds(8);
+  //TComAnalytics::incSubs(8);
   TComAnalytics::incSatdCount(4);
 #endif
   pred    = ( (w0*piCur[0*iStep             ] + round) >> shift ) + offset ;
@@ -217,8 +217,8 @@ Distortion xCalcHADs4x4w( const WPScalingParam &wpCur, const Pel *piOrg, const P
   TCoeff     m[16];
   TCoeff     d[16];
 #if EN_ANALYTICS
-  TComAnalytics::incAdds(48);
-  TComAnalytics::incSubs(48);
+  //TComAnalytics::incAdds(48);
+  //TComAnalytics::incSubs(48);
   TComAnalytics::incSatdCount(16);
 #endif
 
@@ -342,8 +342,8 @@ Distortion xCalcHADs8x8w( const WPScalingParam &wpCur, const Pel *piOrg, const P
 
   Pel   pred;
 #if EN_ANALYTICS
-  TComAnalytics::incAdds(12*8+12*8+64);
-  TComAnalytics::incSubs(64+12*8+12*8);
+  //TComAnalytics::incAdds(12*8+12*8+64);
+  //TComAnalytics::incSubs(64+12*8+12*8);
   TComAnalytics::incSatdCount(64);
 #endif
   for(Int k = 0; k < 64; k+=8 )

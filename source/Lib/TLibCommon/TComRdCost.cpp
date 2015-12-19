@@ -483,9 +483,9 @@ Distortion TComRdCost::xGetSAD( DistParam* pcDtParam )
 
   Distortion uiSum = 0;
 #if EN_ANALYTICS
-  TComAnalytics::incAdds(iRows*iCols);
-  TComAnalytics::incSubs(iRows*iCols);
-  TComAnalytics::incSadCount(iRows*iCols);
+  //TComAnalytics::incAdds(iRows*iCols);
+  //TComAnalytics::incSubs(iRows*iCols);
+  TComAnalytics::incSadCount(std::max(iRows,iCols));
 #endif
   for( ; iRows != 0; iRows-- )
   {
@@ -516,8 +516,8 @@ Distortion TComRdCost::xGetSAD4( DistParam* pcDtParam )
 
   Distortion uiSum = 0;
 #if EN_ANALYTICS
-  TComAnalytics::incAdds(4*iRows/iSubStep);
-  TComAnalytics::incSubs(4*iRows/iSubStep);
+  //TComAnalytics::incAdds(4*iRows/iSubStep);
+  //TComAnalytics::incSubs(4*iRows/iSubStep);
   TComAnalytics::incSadCount(4*iRows/iSubStep);
 #endif
   for( ; iRows != 0; iRows-=iSubStep )
@@ -552,8 +552,8 @@ Distortion TComRdCost::xGetSAD8( DistParam* pcDtParam )
   Int  iStrideOrg = pcDtParam->iStrideOrg*iSubStep;
   
 #if EN_ANALYTICS
-  TComAnalytics::incAdds(8*iRows/iSubStep);
-  TComAnalytics::incSubs(8*iRows/iSubStep);
+  //TComAnalytics::incAdds(8*iRows/iSubStep);
+  //TComAnalytics::incSubs(8*iRows/iSubStep);
   TComAnalytics::incSadCount(8*iRows/iSubStep);
 #endif
   Distortion uiSum = 0;
@@ -593,8 +593,8 @@ Distortion TComRdCost::xGetSAD16( DistParam* pcDtParam )
 
   Distortion uiSum = 0;
 #if EN_ANALYTICS
-  TComAnalytics::incAdds(16*iRows/iSubStep);
-  TComAnalytics::incSubs(16*iRows/iSubStep);
+  //TComAnalytics::incAdds(16*iRows/iSubStep);
+  //TComAnalytics::incSubs(16*iRows/iSubStep);
   TComAnalytics::incSadCount(16*iRows/iSubStep);
 #endif
   
@@ -642,8 +642,8 @@ Distortion TComRdCost::xGetSAD12( DistParam* pcDtParam )
 
   Distortion uiSum = 0;
 #if EN_ANALYTICS
-  TComAnalytics::incAdds(12*iRows/iSubStep);
-  TComAnalytics::incSubs(12*iRows/iSubStep);
+  //TComAnalytics::incAdds(12*iRows/iSubStep);
+  //TComAnalytics::incSubs(12*iRows/iSubStep);
   TComAnalytics::incSadCount(12*iRows/iSubStep);
 #endif
   for( ; iRows != 0; iRows-=iSubStep )
@@ -683,8 +683,8 @@ Distortion TComRdCost::xGetSAD16N( DistParam* pcDtParam )
 
   Distortion uiSum = 0;
 #if EN_ANALYTICS
-  TComAnalytics::incAdds(16*iCols/16*iRows/iSubStep);
-  TComAnalytics::incSubs(16*iCols/16*iRows/iSubStep);
+  //TComAnalytics::incAdds(16*iCols/16*iRows/iSubStep);
+  //TComAnalytics::incSubs(16*iCols/16*iRows/iSubStep);
   TComAnalytics::incSadCount(16*iCols/16*iRows/iSubStep);
 #endif
   for( ; iRows != 0; iRows-=iSubStep )
@@ -732,8 +732,8 @@ Distortion TComRdCost::xGetSAD32( DistParam* pcDtParam )
 
   Distortion uiSum = 0;
 #if EN_ANALYTICS
-  TComAnalytics::incAdds(32*iRows/iSubStep);
-  TComAnalytics::incSubs(32*iRows/iSubStep);
+  //TComAnalytics::incAdds(32*iRows/iSubStep);
+  //TComAnalytics::incSubs(32*iRows/iSubStep);
   TComAnalytics::incSadCount(32*iRows/iSubStep);
 #endif
   for( ; iRows != 0; iRows-=iSubStep )
@@ -796,8 +796,8 @@ Distortion TComRdCost::xGetSAD24( DistParam* pcDtParam )
 
   Distortion uiSum = 0;
 #if EN_ANALYTICS
-  TComAnalytics::incAdds(24*iRows/iSubStep);
-  TComAnalytics::incSubs(24*iRows/iSubStep);
+  //TComAnalytics::incAdds(24*iRows/iSubStep);
+  //TComAnalytics::incSubs(24*iRows/iSubStep);
   TComAnalytics::incSadCount(24*iRows/iSubStep);
 #endif
   
@@ -854,8 +854,8 @@ Distortion TComRdCost::xGetSAD64( DistParam* pcDtParam )
 
   Distortion uiSum = 0;
 #if EN_ANALYTICS
-  TComAnalytics::incAdds(64*iRows/iSubStep);
-  TComAnalytics::incSubs(64*iRows/iSubStep);
+  //TComAnalytics::incAdds(64*iRows/iSubStep);
+  //TComAnalytics::incSubs(64*iRows/iSubStep);
   TComAnalytics::incSadCount(64*iRows/iSubStep);
 #endif
   for( ; iRows != 0; iRows-=iSubStep )
@@ -950,8 +950,8 @@ Distortion TComRdCost::xGetSAD48( DistParam* pcDtParam )
 
   Distortion uiSum = 0;
 #if EN_ANALYTICS
-  TComAnalytics::incAdds(48*iRows/iSubStep);
-  TComAnalytics::incSubs(48*iRows/iSubStep);
+  //TComAnalytics::incAdds(48*iRows/iSubStep);
+  //TComAnalytics::incSubs(48*iRows/iSubStep);
   TComAnalytics::incSadCount(48*iRows/iSubStep);
 #endif
   for( ; iRows != 0; iRows-=iSubStep )
@@ -1034,9 +1034,9 @@ Distortion TComRdCost::xGetSSE( DistParam* pcDtParam )
   Distortion uiSum   = 0;
   UInt       uiShift = DISTORTION_PRECISION_ADJUSTMENT((pcDtParam->bitDepth-8) << 1);
 #if EN_ANALYTICS
-  TComAnalytics::incAdds(iRows*iCols);
-  TComAnalytics::incSubs(iRows*iCols);
-  TComAnalytics::incMults(iRows*iCols);
+  //TComAnalytics::incAdds(iRows*iCols);
+  //TComAnalytics::incSubs(iRows*iCols);
+  //TComAnalytics::incMults(iRows*iCols);
   TComAnalytics::incSseCount(iRows*iCols);
 #endif
   Intermediate_Int iTemp;
@@ -1073,9 +1073,9 @@ Distortion TComRdCost::xGetSSE4( DistParam* pcDtParam )
 
   Intermediate_Int  iTemp;
 #if EN_ANALYTICS
-  TComAnalytics::incAdds(iRows*4);
-  TComAnalytics::incSubs(iRows*4);
-  TComAnalytics::incMults(iRows*4);
+  //TComAnalytics::incAdds(iRows*4);
+  //TComAnalytics::incSubs(iRows*4);
+  //TComAnalytics::incMults(iRows*4);
   TComAnalytics::incSseCount(iRows*4);
 #endif
   for( ; iRows != 0; iRows-- )
@@ -1111,9 +1111,9 @@ Distortion TComRdCost::xGetSSE8( DistParam* pcDtParam )
 
   Intermediate_Int  iTemp;
 #if EN_ANALYTICS
-  TComAnalytics::incAdds(iRows*8);
-  TComAnalytics::incSubs(iRows*8);
-  TComAnalytics::incMults(iRows*8);
+  //TComAnalytics::incAdds(iRows*8);
+  //TComAnalytics::incSubs(iRows*8);
+  //TComAnalytics::incMults(iRows*8);
   TComAnalytics::incSseCount(iRows*8);
 #endif
   
@@ -1153,9 +1153,9 @@ Distortion TComRdCost::xGetSSE16( DistParam* pcDtParam )
 
   Intermediate_Int  iTemp;
 #if EN_ANALYTICS
-  TComAnalytics::incAdds(iRows*16);
-  TComAnalytics::incSubs(iRows*16);
-  TComAnalytics::incMults(iRows*16);
+  //TComAnalytics::incAdds(iRows*16);
+  //TComAnalytics::incSubs(iRows*16);
+  //TComAnalytics::incMults(iRows*16);
   TComAnalytics::incSseCount(iRows*16);
 #endif
   for( ; iRows != 0; iRows-- )
@@ -1198,9 +1198,9 @@ Distortion TComRdCost::xGetSSE16N( DistParam* pcDtParam )
   Int  iStrideOrg = pcDtParam->iStrideOrg;
   Int  iStrideCur = pcDtParam->iStrideCur;
 #if EN_ANALYTICS
-  TComAnalytics::incAdds(16*iRows*iCols/16);
-  TComAnalytics::incSubs(16*iRows*iCols/16);
-  TComAnalytics::incMults(16*iRows*iCols/16);
+  //TComAnalytics::incAdds(16*iRows*iCols/16);
+  //TComAnalytics::incSubs(16*iRows*iCols/16);
+  //TComAnalytics::incMults(16*iRows*iCols/16);
   TComAnalytics::incSseCount(16*iRows*iCols/16);
 #endif
   Distortion uiSum   = 0;
@@ -1256,9 +1256,9 @@ Distortion TComRdCost::xGetSSE32( DistParam* pcDtParam )
 
   Intermediate_Int  iTemp;
   #if EN_ANALYTICS
-  TComAnalytics::incAdds(iRows*32);
-  TComAnalytics::incSubs(iRows*32);
-  TComAnalytics::incMults(iRows*32);
+  //TComAnalytics::incAdds(iRows*32);
+  //TComAnalytics::incSubs(iRows*32);
+  //TComAnalytics::incMults(iRows*32);
   TComAnalytics::incSseCount(iRows*32);
 #endif
   for( ; iRows != 0; iRows-- )
@@ -1322,9 +1322,9 @@ Distortion TComRdCost::xGetSSE64( DistParam* pcDtParam )
 
   Intermediate_Int  iTemp;
 #if EN_ANALYTICS
-  TComAnalytics::incAdds(iRows*64);
-  TComAnalytics::incSubs(iRows*64);
-  TComAnalytics::incMults(iRows*64);
+  //TComAnalytics::incAdds(iRows*64);
+  //TComAnalytics::incSubs(iRows*64);
+  //TComAnalytics::incMults(iRows*64);
   TComAnalytics::incSseCount(iRows*64);
 #endif
   for( ; iRows != 0; iRows-- )
@@ -1408,8 +1408,8 @@ Distortion TComRdCost::xGetSSE64( DistParam* pcDtParam )
 Distortion TComRdCost::xCalcHADs2x2( Pel *piOrg, Pel *piCur, Int iStrideOrg, Int iStrideCur, Int iStep )
 {
     #if EN_ANALYTICS
-  TComAnalytics::incAdds(8);
-  TComAnalytics::incSubs(8);
+  //TComAnalytics::incAdds(8);
+  //TComAnalytics::incSubs(8);
   TComAnalytics::incSatdCount(4);
 #endif
   
@@ -1440,8 +1440,8 @@ Distortion TComRdCost::xCalcHADs4x4( Pel *piOrg, Pel *piCur, Int iStrideOrg, Int
   Distortion satd = 0;
   TCoeff diff[16], m[16], d[16];
 #if EN_ANALYTICS
-  TComAnalytics::incAdds(48);
-  TComAnalytics::incSubs(48);
+  //TComAnalytics::incAdds(48);
+  //TComAnalytics::incSubs(48);
   TComAnalytics::incSatdCount(16);
 #endif
   assert( iStep == 1 );
@@ -1538,8 +1538,8 @@ Distortion TComRdCost::xCalcHADs8x8( Pel *piOrg, Pel *piCur, Int iStrideOrg, Int
 {
     
     #if EN_ANALYTICS
-  TComAnalytics::incAdds(12*8+12*8+64);
-  TComAnalytics::incSubs(64+12*8+12*8);
+  //TComAnalytics::incAdds(12*8+12*8+64);
+  //TComAnalytics::incSubs(64+12*8+12*8);
   TComAnalytics::incSatdCount(64);
 #endif
   Int k, i, j, jj;

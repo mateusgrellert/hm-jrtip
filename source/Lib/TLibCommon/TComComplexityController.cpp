@@ -141,17 +141,19 @@ Double TComComplexityController::calcSimpleControl(UInt n){
 }
 
 Double TComComplexityController::calcAchievedComp(){
-    Double n_cycles = 0.0; // in 10^6 cycles
+    Double ac = 0.0; // in 10^6 cycles
         // REMINDER - opCount is in 10^6
     for(int i = 0; i < g_uiMaxCUDepth; i++){
-        n_cycles += TComAnalytics::sadCount[i][0]*CYCLES_SAD;
-        n_cycles += TComAnalytics::sseCount[i][0]*CYCLES_SSE;
-        n_cycles += TComAnalytics::satdCount[i][0]*CYCLES_SATD;
-        n_cycles += TComAnalytics::transfCount[i][0]*CYCLES_TRANSF;
+        ac += TComAnalytics::sadCount[i][0]*TIME_SAD[i]; 
+        ac += TComAnalytics::sseCount[i][0]*TIME_SSE[i];
+        ac += TComAnalytics::satdCount[i][0]*TIME_SATD[i];
+        ac += TComAnalytics::transfCount[i][0]*TIME_TRANSF[i];
+        ac += TComAnalytics::interpolHalfCount[i][0]*TIME_HALF_INTER[i];
+        ac += TComAnalytics::interpolQuarterCount[i][0]*TIME_QUART_INTER[i];
     }
     
-    //return n_cycles;
-    return timer;
+    return ac/1000000.0; // TIME TABLES ARE IN MICROSECONDS, so we multiply by 10^6
+    //return timer;
 }
 
 
@@ -164,16 +166,18 @@ Void TComComplexityController::endTimer(){
 }
 
 Double TComComplexityController::calcTotalComp(){
-    Double n_cycles = 0.0;
+    Double ac = 0.0;
         // REMINDER - opCount is in 10^6
     for(int i = 0; i < g_uiMaxCUDepth; i++){
-        n_cycles += TComAnalytics::sadCount[i][1]*CYCLES_SAD;
-        n_cycles += TComAnalytics::sseCount[i][1]*CYCLES_SSE;
-        n_cycles += TComAnalytics::satdCount[i][1]*CYCLES_SATD;
-        n_cycles += TComAnalytics::transfCount[i][1]*CYCLES_TRANSF;
+        ac += TComAnalytics::sadCount[i][1]*TIME_SAD[i]; 
+        ac += TComAnalytics::sseCount[i][1]*TIME_SSE[i];
+        ac += TComAnalytics::satdCount[i][1]*TIME_SATD[i];
+        ac += TComAnalytics::transfCount[i][1]*TIME_TRANSF[i];
+        ac += TComAnalytics::interpolHalfCount[i][1]*TIME_HALF_INTER[i];
+        ac += TComAnalytics::interpolQuarterCount[i][1]*TIME_QUART_INTER[i];
     }
     
-    return n_cycles;
+    return ac;
 }
 
 Void TComComplexityController::openPidFile(){ 

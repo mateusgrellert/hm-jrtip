@@ -488,10 +488,12 @@ Double TComComplexityBudgeter::estimateCycleCount(UInt d, UInt conf){
     
     // for(int i = 0; i <= d; i++){
      for(int i = 0; i < 4; i++){
-        count += (TComAnalytics::sadCount[i][0]) * CYCLES_SAD;
-        count += (TComAnalytics::sseCount[i][0]) * CYCLES_SSE;
-        count += (TComAnalytics::satdCount[i][0]) * CYCLES_SATD;
-        count += (TComAnalytics::transfCount[i][0]) * CYCLES_TRANSF;
+        count += (TComAnalytics::sadCount[i][0]) * TIME_SAD[i];
+        count += (TComAnalytics::sseCount[i][0]) * TIME_SSE[i];
+        count += (TComAnalytics::satdCount[i][0]) * TIME_SATD[i];
+        count += (TComAnalytics::transfCount[i][0]) * TIME_TRANSF[i];
+        count += (TComAnalytics::interpolHalfCount[i][0]) * TIME_HALF_INTER[i];
+        count += (TComAnalytics::interpolQuarterCount[i][0]) * TIME_QUART_INTER[i];
     }
     
     //return (count*factor);

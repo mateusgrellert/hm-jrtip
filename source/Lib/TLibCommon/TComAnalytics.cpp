@@ -26,12 +26,14 @@ Int TComAnalytics::mvList[40][25][64][2]; // [0] x*y/(64*64), [1] partIdx/8, [2]
 Double TComAnalytics::sadCount[MAX_CU_DEPTH][2]; // [0] current frame, [1] total
 Double TComAnalytics::sseCount[MAX_CU_DEPTH][2];
 Double TComAnalytics::satdCount[MAX_CU_DEPTH][2];
+Double TComAnalytics::transfCount[MAX_CU_DEPTH][2];
+Double TComAnalytics::interpolHalfCount[MAX_CU_DEPTH][2];
+Double TComAnalytics::interpolQuarterCount[MAX_CU_DEPTH][2];
 
 Double TComAnalytics::addCount[MAX_CU_DEPTH][2];
 Double TComAnalytics::subCount[MAX_CU_DEPTH][2];
 Double TComAnalytics::mulCount[MAX_CU_DEPTH][2];
 
-Double TComAnalytics::transfCount[MAX_CU_DEPTH][2];
 
 Double TComAnalytics::puCount[MAX_CU_DEPTH][8];
 
@@ -64,11 +66,14 @@ Void TComAnalytics::init() {
             sadCount[i][j] = 0.0;
             sseCount[i][j] = 0.0;
             satdCount[i][j] = 0.0;
-
+            transfCount[i][j] = 0.0;
+            interpolHalfCount[i][j] = 0.0;
+            interpolQuarterCount[i][j] = 0.0;
+            
             addCount[i][j] = 0.0;
             subCount[i][j] = 0.0;
             mulCount[i][j] = 0.0;
-            transfCount[i][j] = 0.0;
+
 
          }
          cuCount[i] = 0;
@@ -114,7 +119,7 @@ Void TComAnalytics::report(){
     outFile << endl << endl;
     
     outFile << ";mSAD operations;mSSE operations;mSATD operations;mTransforms;";
-    outFile << "mADD operations;mSUB operations;mMUL operations;" << endl;
+  //  outFile << "mADD operations;mSUB operations;mMUL operations;" << endl;
     
     for(int i = 0; i < g_uiMaxCUDepth; i++){
         outFile << i << ";" << sadCount[i][1] << ";";
@@ -122,9 +127,9 @@ Void TComAnalytics::report(){
         outFile << satdCount[i][1] << ";";
         outFile << transfCount[i][1] << ";";
 
-        outFile << addCount[i][1] << ";";
-        outFile << subCount[i][1] << ";";
-        outFile << mulCount[i][1] << endl;
+       // outFile << addCount[i][1] << ";";
+     //   outFile << subCount[i][1] << ";";
+       // outFile << mulCount[i][1] << endl;
     }   
     
 }
@@ -215,35 +220,45 @@ Void TComAnalytics::incModeCount(UInt mode, UInt d){
 }
 
 Void TComAnalytics::incSadCount(UInt num){
-    sadCount[currDepth][0] += (Double)  num/(4096*1000000.0);
-    sadCount[currDepth][1] += (Double)  num/(4096*1000000.0);
+    sadCount[currDepth][0] += (Double)  1;
+    sadCount[currDepth][1] += (Double)  1;
 }
 
 
 Void TComAnalytics::incSseCount(UInt num){
-    sseCount[currDepth][0] += (Double) num/(4096*1000000.0);
-    sseCount[currDepth][1] += (Double) num/(4096*1000000.0);
+    sseCount[currDepth][0] += (Double) 1;
+    sseCount[currDepth][1] += (Double) 1;
 }
 
 Void TComAnalytics::incSatdCount(UInt num){
-    satdCount[currDepth][0] += (Double) num/(4096*1000000.0);
-    satdCount[currDepth][1] += (Double) num/(4096*1000000.0);
+    satdCount[currDepth][0] += (Double) 1;
+    satdCount[currDepth][1] += (Double) 1;
 }
 
 
 Void TComAnalytics::incTransformsCount(UInt w, UInt h){
-    transfCount[currDepth][0] += (Double) (w*h)/(4096*1000000.0);
-    transfCount[currDepth][1] += (Double) (w*h)/(4096*1000000.0);
+    transfCount[currDepth][0] += (Double) 1;
+    transfCount[currDepth][1] += (Double) 1;
+}
+
+Void TComAnalytics::incHalfInterpCount(){
+    interpolHalfCount[currDepth][0] += (Double) 1;
+    interpolHalfCount[currDepth][1] += (Double) 1;
+}
+
+Void TComAnalytics::incQuarterInterpCount(){
+    interpolQuarterCount[currDepth][0] += (Double) 1;
+    interpolQuarterCount[currDepth][1] += (Double) 1;
 }
 
 Void TComAnalytics::incAdds(UInt num){
-    addCount[currDepth][0] += (Double) num/(1000000.00);
-    addCount[currDepth][1] += (Double) num/(1000000.00);
+    addCount[currDepth][0] += (Double) num;
+    addCount[currDepth][1] += (Double) num;
 }
 
 Void TComAnalytics::incSubs(UInt num){
-    subCount[currDepth][0] += (Double) num/(1000000.00);
-    subCount[currDepth][1] += (Double) num/(1000000.00);
+    subCount[currDepth][0] += (Double) num;
+    subCount[currDepth][1] += (Double) num;
 }
 
 Void TComAnalytics::incMults(UInt num){
